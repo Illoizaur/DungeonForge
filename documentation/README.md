@@ -133,4 +133,271 @@ NF8: Система повинна коректно працювати при о
 - Автоматичне оновлення: Після змін у даних виконується фонове оновлення резервної копії.
 
 ## API:
-
+### 1. Авторизація та автентифікація
+> POST /login/
+- Опис: Аутентифікація користувача для входу в систему.
+- Тіло запиту:
+```json
+{
+  "username": "user_name",
+  "password": "password"
+}
+```
+-  Відповідь:
+```json
+{
+  "access_token": "your_access_token",
+  "token_type": "bearer"
+}
+```
+> POST /register/
+- Опис: Реєстрація нового користувача.
+- Тіло запиту:
+```json
+{
+  "username": "user_name",
+  "password": "password",
+  "email": "email@example.com"
+}
+```
+- Відповідь:
+```json
+{
+  "message": "User registered successfully"
+}
+```
+### 2. Персонажі
+> POST /characters/
+- Опис: Створення нового персонажа.
+- Тіло запиту:
+```json
+{
+  "name": "Character Name",
+  "class": "Warrior",
+  "race": "Human",
+  "stats": {
+    "strength": 10,
+    "dexterity": 12,
+    "constitution": 14,
+    "intelligence": 8,
+    "wisdom": 10,
+    "charisma": 14
+  },
+  "inventory": [],
+  "skills": ["Athletics", "Survival"]
+}
+```
+- Відповідь:
+```json
+{
+  "message": "Character created successfully",
+  "character_id": 12345
+}
+```
+> GET /characters/{character_id}/
+- Опис: Отримання інформації про персонажа за його ідентифікатором.
+- Відповідь:
+```json
+{
+  "name": "Character Name",
+  "class": "Warrior",
+  "race": "Human",
+  "stats": {
+    "strength": 10,
+    "dexterity": 12,
+    "constitution": 14,
+    "intelligence": 8,
+    "wisdom": 10,
+    "charisma": 14
+  },
+  "inventory": [],
+  "skills": ["Athletics", "Survival"]
+}
+```
+> PUT /characters/{character_id}/
+- Опис: Оновлення інформації про персонажа (наприклад, зміна характеристик, інвентаря тощо).
+- Тіло запиту:
+```json
+{
+  "name": "Updated Character Name",
+  "class": "Mage",
+  "inventory": ["Magic Wand", "Spell Book"]
+}
+```
+- Відповідь:
+```json
+{
+  "message": "Character updated successfully"
+}
+```
+### 3. Гра (Для ГМ)
+> POST /games/
+- Опис: Створення нової гри (наприклад, кампанії).
+- Тіло запиту:
+```json
+{
+  "game_name": "Dungeon Adventure",
+  "description": "Epic adventure in a dark dungeon",
+  "gm_id": 1
+}
+```
+- Відповідь:
+```json
+{
+  "message": "Game created successfully",
+  "game_id": 67890
+}
+```
+> GET /games/{game_id}/
+- Опис: Отримання інформації про гру, включаючи статус, учасників, карту та інші дані.
+- Відповідь:
+```json
+{
+  "game_name": "Dungeon Adventure",
+  "description": "Epic adventure in a dark dungeon",
+  "gm_id": 1,
+  "players": ["Player1", "Player2"],
+  "map": "map_url_or_object",
+  "status": "In Progress"
+}
+```
+> POST /games/{game_id}/start/
+- Опис: Початок гри або кампанії.
+- Відповідь:
+```json
+{
+  "message": "Game started successfully... Finally"
+}
+```
+> POST /games/{game_id}/end/
+- Опис: Завершення гри.
+- Відповідь:
+```json
+{
+  "message": "Game ended successfully! Gontratulations!!!"
+}
+```
+### 4. Ініціатива та Бій
+> POST /combat/{game_id}/start/
+- Опис: Початок бою в грі.
+- Тіло запиту:
+```json
+{
+  "turn_order": ["Player1", "Player2", "NPC1", "NPC2"]
+}
+```
+Відповідь:
+```json
+{
+  "message": "Combat started successfully"
+}
+```
+> POST /combat/{game_id}/turn/
+- Опис: Оновлення черги ходів (ініціатива).
+- Тіло запиту:
+```json
+{
+  "current_turn": "Player1"
+}
+```
+- Відповідь:
+```json
+{
+  "message": "Turn updated successfully"
+}
+```
+> POST /combat/{game_id}/action/
+- Опис: Виконання дії в бою (атака, використання зілля, тощо).
+- Тіло запиту:
+```json
+{
+  "action_type": "attack",
+  "attacker": "Player1",
+  "target": "Enemy1",
+  "damage": 10
+}
+```
+- Відповідь:
+```json
+{
+  "message": "Action executed successfully"
+}
+```
+### 5. Заклинання та ефекти
+> GET /spells/
+- Опис: Отримання списку всіх доступних заклинань.
+- Відповідь:
+```json
+[
+  {
+    "name": "Fireball",
+    "description": "Deals fire damage to all enemies in area",
+    "level": 3
+  },
+  {
+    "name": "Heal",
+    "description": "Restores health to a friendly target",
+    "level": 1
+  }
+]
+```
+> POST /spells/cast/
+- Опис: Виконання заклинання.
+- Тіло запиту:
+```json
+{
+  "spell_name": "Fireball",
+  "caster": "Player1",
+  "targets": ["Enemy1", "Enemy2"],
+  "damage": 25
+}
+```
+- Відповідь:
+```json
+{
+  "message": "Spell cast successfully"
+}
+```
+### 6. Зберігання та налаштування
+> POST /settings/
+- Опис: Оновлення налаштувань гри (мова, тема, тощо).
+- Тіло запиту:
+```json
+{
+  "language": "uk",
+  "theme": "dark"
+}
+```
+- Відповідь:
+```json
+{
+  "message": "Settings updated successfully"
+}
+```
+> POST /save/
+- Опис: Збереження прогресу гри в хмарі.
+- Тіло запиту:
+```json
+{
+  "game_id": 67890,
+  "progress": "game_state_object"
+}
+```
+- Відповідь:
+```json
+{
+  "message": "Progress saved successfully"
+}
+```
+### 7. Інші корисні ендпоінти
+> GET /players/{player_id}/
+- Опис: Отримання інформації про гравця.
+- Відповідь:
+```json
+{
+  "username": "Player1",
+  "email": "player1@example.com",
+  "character": "Character Name",
+  "status": "Active"
+}
+```
