@@ -1,4 +1,5 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
+from typing import List
 
 class User(SQLModel, table=True):
     __tablename__ = "users"
@@ -7,3 +8,4 @@ class User(SQLModel, table=True):
     password: str
     email: str
     is_admin: bool = False
+    adventurers: List["Adventurer"] = Relationship(back_populates="user")
