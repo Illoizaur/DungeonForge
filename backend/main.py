@@ -1,10 +1,12 @@
 from fastapi import FastAPI
-from app.api import router
+from app.routes.userRoute import router as user_router
+from app.db.database import init_db
+from app.seed.seed_admin import seed_admin_user
 
 app = FastAPI()
 
-app.include_router(router.router)
+app.include_router(user_router)
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to Dungeon Forge API!"}
+@app.on_event("startup")
+def on_startup():
+    init_db()
