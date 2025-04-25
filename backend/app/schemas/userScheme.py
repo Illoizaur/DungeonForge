@@ -1,0 +1,19 @@
+from sqlmodel import SQLModel
+
+class UserCreate(SQLModel):
+    username: str
+    password: str
+    email: str
+
+class UserResponse(SQLModel):
+    id: int
+    username: str
+    email: str
+
+    class UserResponseConfig:
+        from_attributes = True
+
+class UserUpdate(SQLModel):
+    username: str | None = None
+    password: str | None = None
+    email: str | None = None
