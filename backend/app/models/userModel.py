@@ -1,9 +1,12 @@
 from sqlmodel import SQLModel, Field, Relationship
-from typing import List
+from typing import List, TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from app.models.adventurerModel import Adventurer
 
 class User(SQLModel, table=True):
     __tablename__ = "users"
-    id: int | None = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     username: str
     password: str
     email: str

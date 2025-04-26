@@ -1,6 +1,8 @@
 from sqlmodel import SQLModel
 from typing import Optional
 
+#from app.schemas.statsScheme import StatsResponse
+
 class AdventurerCreate(SQLModel):
     room_id: Optional[int] = None
     name: str
@@ -41,3 +43,22 @@ class AdventurerResponse(SQLModel):
 
     class AdventurerResponseConfig:
         from_attributes = True
+
+#Ідея на майбутнє, яка буде реалізована пізніше... напевно, але можливо і ні
+#class AdventurerResponseWithStats(SQLModel):
+#    id: int
+#    user_id: int
+#    room_id: Optional[int] = None
+#    name: str
+#    avatar_url: str
+#    exp: int
+#    level: int
+#    sex: str
+#    age: int
+#    race: str
+#    adv_class: str
+#    alignment: str
+#    stats: Optional[StatsResponse]
+
+#    class AdventurerResponseWithStatsConfig:
+#        from_attributes = True

@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from typing import List
 from sqlmodel import Session, select
+
 from app.models.userModel import User
 from app.schemas.userScheme import UserCreate, UserUpdate
 from app.db.database import engine

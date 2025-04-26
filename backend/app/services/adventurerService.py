@@ -1,8 +1,11 @@
 from fastapi import HTTPException
 from typing import List
 from sqlmodel import Session, select
+
 from app.models.adventurerModel import Adventurer
 from app.schemas.adventurerScheme import AdventurerCreate, AdventurerUpdate
+#from app.schemas.adventurerScheme import AdventurerResponseWithStats
+#from app.schemas.statsScheme import StatsResponse
 from app.db.database import engine
 from app.models.userModel import User
 
@@ -26,7 +29,11 @@ def get_adventurers(current_user: User) -> List[Adventurer]:
 
 def get_adventurer(adventurer_id: int, current_user: User) -> Adventurer:
     with Session(engine) as session:
-        statement = select(Adventurer).where(Adventurer.id == adventurer_id)
+        statement = (
+            select(Adventurer)
+            .where(Adventurer.id == adventurer_id)
+            .where(Adventurer.user_id == current_user.id)
+        )
         adventurer = session.exec(statement).first()
 
         if adventurer is None:
@@ -35,6 +42,18 @@ def get_adventurer(adventurer_id: int, current_user: User) -> Adventurer:
             raise HTTPException(status_code=403, detail="You can only access your own adventurers")
         return adventurer
 
+#Ідея на майбутнє, яка буде реалізована пізніше... напевно, але можливо і ні
+#def get_adventurer_with_stats(adventurer_id: int, current_user: User) -> AdventurerResponseWithStats:
+#    with Session(engine) as session:
+#       statement = select(Adventurer).where(Adventurer.id == adventurer_id)
+#        adventurer = session.exec(statement).first()
+#
+#        if adventurer is None:
+#            raise HTTPException(status_code=404, detail="Adventurer not found")
+#        if adventurer.user_id != current_user.id:
+#            raise HTTPException(status_code=403, detail="You can only access your own adventurers")
+
+#        return AdventurerResponseWithStats.from_orm(adventurer)
 
 def update_adventurer(adventurer_id: int, update_data: AdventurerUpdate, current_user: User) -> Adventurer:
     with Session(engine) as session:

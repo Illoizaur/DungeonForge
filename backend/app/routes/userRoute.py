@@ -26,7 +26,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=600)
+    access_token_expires = timedelta(minutes=10)
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
