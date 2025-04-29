@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordBearer
 
-from app.schemas.statsScheme import StatsCreate, StatsUpdate, StatsResponse
 from app.models.userModel import User
-from app.services.authService import get_current_user
 import app.services.statsService as services
+from app.services.authService import get_current_user
+from app.schemas.statsScheme import StatsCreate, StatsUpdate, StatsResponse
 
 router = APIRouter(prefix="/stats", tags=["Stats"])
 

@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel
 from typing import Optional
+from sqlmodel import SQLModel
 
 #from app.schemas.statsScheme import StatsResponse
 

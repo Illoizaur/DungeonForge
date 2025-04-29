@@ -1,12 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
 from typing import List
 from datetime import timedelta
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.schemas.userScheme import UserCreate, UserResponse, UserUpdate
-from app.schemas.tokenScheme import Token
 from app.models.userModel import User
+from app.schemas.tokenScheme import Token
 import app.services.userService as services
+from app.schemas.userScheme import UserCreate, UserResponse, UserUpdate
 from app.services.authService import (
     authenticate_user,
     create_access_token,

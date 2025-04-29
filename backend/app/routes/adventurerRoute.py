@@ -1,12 +1,12 @@
+from typing import List
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordBearer
-from typing import List
 
-from app.schemas.adventurerScheme import AdventurerCreate, AdventurerUpdate, AdventurerResponse
 #from app.schemas.adventurerScheme import AdventurerResponseWithStats
 from app.models.userModel import User
-from app.services.authService import get_current_user
 import app.services.adventurerService as services
+from app.services.authService import get_current_user
+from app.schemas.adventurerScheme import AdventurerCreate, AdventurerUpdate, AdventurerResponse
 
 router = APIRouter(prefix="/adv", tags=["adventurers"])
 

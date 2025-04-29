@@ -1,5 +1,5 @@
-from fastapi import HTTPException
 from typing import List
+from fastapi import HTTPException
 from sqlmodel import Session, select
 
 from app.models.userModel import User

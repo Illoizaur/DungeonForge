@@ -1,4 +1,5 @@
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Field
+from typing import Optional
 
 class UserCreate(SQLModel):
     username: str
@@ -14,6 +15,6 @@ class UserResponse(SQLModel):
         from_attributes = True
 
 class UserUpdate(SQLModel):
-    username: str | None = None
-    password: str | None = None
-    email: str | None = None
+    username: Optional[str] = Field(default=None)
+    password: Optional[str] = Field(default=None)
+    email: Optional[str] = Field(default=None)

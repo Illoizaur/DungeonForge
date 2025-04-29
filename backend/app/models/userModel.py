@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship
 from typing import List, TYPE_CHECKING, Optional
+from sqlmodel import SQLModel, Field, Relationship
 
 if TYPE_CHECKING:
     from app.models.adventurerModel import Adventurer
